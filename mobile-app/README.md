@@ -4,34 +4,43 @@ Cette application mobile réutilise votre backend PHP existant (`/api/api.php` e
 - planification mariage/évènement,
 - dépenses,
 - budget,
-- paiements.
+- paiements,
+- date de mariage.
 
-## 1) Installation
+## Démarrage rapide (30 min)
 
+### 1) Installer les dépendances
 ```bash
 cd mobile-app
 npm install
 ```
 
-## 2) Lancer en développement
-
+### 2) Lancer Expo
 ```bash
 npm run start
 ```
 
-Puis ouvrir via Expo Go (Android/iOS) ou simulateur.
+### 3) Ouvrir l'app
+- soit via **Expo Go** (Android/iOS),
+- soit via un simulateur local.
 
-## 3) Configuration API
-
-Dans l'écran **settings** de l'application, configurez l'URL vers votre site web existant.
-
+### 4) Configurer l'URL API dans l'écran **Paramètres**
 Exemples :
 - Émulateur Android : `http://10.0.2.2/Plateforme-budget-mariage`
 - iOS simulateur : `http://localhost/Plateforme-budget-mariage`
 - Téléphone réel : `http://IP_LOCALE_DU_SERVEUR/Plateforme-budget-mariage`
 
-## 4) Build et déploiement propre
+---
 
+## Fonctionnalités incluses
+- Authentification (login/logout + vérification de session)
+- Tableau de bord budget/paiements
+- Gestion des dépenses (ajouter, marquer payé, supprimer)
+- Catégories de dépenses
+- Date de mariage (chargement/sauvegarde)
+- Checklist planning avec stockage local (AsyncStorage)
+
+## Build de production (Android/iOS)
 ```bash
 npm install -g eas-cli
 npx eas login
@@ -40,10 +49,13 @@ npx eas build --platform android
 npx eas build --platform ios
 ```
 
-Vous obtenez des builds professionnelles sans modifier votre backend.
+## Dépannage
 
-## 5) Notes importantes
+### Échec de connexion API
+1. Vérifier l'URL API dans l'écran Paramètres.
+2. Vérifier que le backend PHP est joignable depuis le téléphone/émulateur.
+3. Si domaine différent, configurer correctement CORS + cookies de session.
 
-- Le backend actuel est basé sur session PHP : l'app utilise `credentials: 'include'`.
-- Activez CORS/cookies correctement si API et app ne sont pas sur le même domaine.
-- Pour un déploiement à grande échelle, il est recommandé d'ajouter une authentification par token (JWT).
+### Session non conservée
+Le backend actuel utilise des sessions PHP. L'app envoie les requêtes avec `credentials: 'include'`.
+Assurez-vous que vos cookies et domaine sont compatibles avec le mode d'accès mobile.

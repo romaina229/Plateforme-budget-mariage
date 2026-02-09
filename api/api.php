@@ -191,31 +191,6 @@ try {
             echo json_encode(['success' => false, 'message' => 'Erreur base de données: ' . $e->getMessage()]);
         }
         break;
-// Endpoint pour récupérer la date de mariage fin  
-case 'get_wedding_date':
-    if (!AuthManager::isLoggedIn()) {
-        echo json_encode(['success' => false]);
-        exit;
-    }
-    
-    $userId = $_SESSION['user_id'];
-    
-    try {
-        $stmt = $conn->prepare("SELECT wedding_date FROM wedding_dates WHERE user_id = ?");
-        $stmt->execute([$userId]);
-        $result = $stmt->fetch();
-        
-        if ($result) {
-            echo json_encode(['success' => true, 'date' => $result['wedding_date']]);
-        } else {
-            echo json_encode(['success' => false]);
-        }
-        
-    } catch (PDOException $e) {
-        echo json_encode(['success' => false]);
-    }
-    break;
-            
         case 'category_stats':
             $categories = $manager->getAllCategories();
             $stats = [];
