@@ -16,6 +16,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <link rel="shortcut icon" href="assets/images/logo.png" type="image/png">
     <title>Budget Mariage - Réussir l'organisation de son mariage</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="./assets/css/style.css">
@@ -122,13 +123,27 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                 width: 85%;
             }
         }
+    .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    }
+
+    .logo-icon {
+        width: 72px;
+        height: 72px;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+
     </style>
 </head>
 <body>
     <header class="fixed-header">
         <div class="header-content">
             <div class="logo">
-                <h1>💍 Budget Mariage</h1>
+                <img src="assets/images/logo.png" alt="Budget Mariage" class="logo-icon">
+                <h1>Budget Mariage</h1>
             </div>
             
             <button class="mobile-menu-btn" id="mobileMenuBtn">

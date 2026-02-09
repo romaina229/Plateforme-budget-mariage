@@ -121,7 +121,7 @@ $randomVerse = $bibleVerses[array_rand($bibleVerses)];
             <div class="footer-section">
                 <h4>Contact & Support</h4>
                 <div class="contact-info">
-                    <p><i class="fas fa-envelope"></i> Email: life@gmail.com</p>
+                    <p><i class="fas fa-envelope"></i> Email: liferopro@gmail.com</p>
                     <p><i class="fas fa-phone"></i> Téléphone: +229 01 94 59 25 67</p>
                     <p><i class="fas fa-map-marker-alt"></i> Abomey-Calavi, Bénin</p>
                 </div>
@@ -159,7 +159,7 @@ $randomVerse = $bibleVerses[array_rand($bibleVerses)];
                         <div class="stat-label">Dépenses</div>
                     </div>
                 </div>
-            </div>
+            </div><br>
 
             <div class="footer-section">
                 <h4>Pages Légales</h4>
