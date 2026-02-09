@@ -89,7 +89,7 @@ $randomVerse = $bibleVerses[array_rand($bibleVerses)];
         <div class="footer-column">
             <div class="footer-section">
                 <h3>💍 Budget Mariage</h3>
-                <p>Projet Jésus Pourvoir Ménage - Gestion complète de votre budget de mariage</p>
+                <p>Organisez le mariage de vos rêves sans stress grâce à Budget Mariage : budget, dépenses, paiements et planification simplifiée.</p>
                 
                 <!-- Verset biblique -->
                 <div class="bible-verse">

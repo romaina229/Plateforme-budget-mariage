@@ -221,7 +221,22 @@ if (!AuthManager::isLoggedIn()) {
             </div>
         </div>
     </div>
-
+    <div>
+        <img src="assets/images/toanmda-couple.jpg" alt="image d'un couple heureux" style="width: 100%; max-width: 900px; display: block; margin: 20px auto; border-radius: 10px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);">
+    </div>
+    <div style="display: flex; justify-content: center; margin: 20px auto; max-width: 800px;">
+        <h4 style="text-align: center; justify-content: center; font-size: 1.1rem; color: #555; max-width: 800px; margin: 20px auto;">
+            "Le mariage est une alliance sacrée, un engagement d'amour et de fidélité. En planifiant votre mariage avec soin, vous posez les fondations d'une vie commune épanouissante. Que votre union soit bénie et remplie de bonheur !"
+        </h4>
+    </div>
+    <div style="display: flex; justify-content: center; margin-bottom: 30px;">
+        <button>
+            <a href="index.php" style="text-decoration: none; color: white; text-align: center; display: block; justify-content: center; font-size: 1rem; padding: 10px 20px; background: linear-gradient(135deg, #8b4f8d 0%, #5d2f5f 100%); border-radius: 5px; transition: all 0.3s;">
+                 <i class="fas fa-arrow-left"></i> Retour à l'accueil
+            </a>
+        </button>
+    </div>
+    
     <script>
         // Variables globales
         let weddingDate = null;

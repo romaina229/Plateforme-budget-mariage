@@ -1,10 +1,15 @@
 <?php
+require_once __DIR__ . '/../config/config.php';
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
 require_once __DIR__ . '/../auth/AuthManager.php';
 
+if (AuthManager::isLoggedIn() && !AuthManager::checkSessionTimeout()) {
+    header('Location: auth/login.php?expired=1');
+    exit;
+}
 $isLoggedIn = AuthManager::isLoggedIn();
 $currentUser = $isLoggedIn ? AuthManager::getCurrentUser() : null;
 
@@ -16,7 +21,16 @@ $currentPage = basename($_SERVER['PHP_SELF']);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <link rel="shortcut icon" href="assets/images/logo.png" type="image/png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="mobile-web-app-capable" content="yes">
+    <meta property="og:title" content="Budget Mariage">
+    <meta property="og:description" content="Gérez facilement le budget de votre mariage : dépenses, paiements et organisation financière en un seul outil.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://tonsite.com">
+    <meta property="og:image" content="https://tonsite.com/assets/images/toanmda-couple.jpg">
+    <meta property="og:locale" content="fr_FR">
+    <meta name="description" content="Budget Mariage est une plateforme simple et efficace pour planifier votre mariage, suivre vos dépenses, gérer les paiements et organiser votre budget en toute sérénité.">
+    <link rel="shortcut icon" href="assets/images/wedding.jpg" type="image/jpg">
     <title>Budget Mariage - Réussir l'organisation de son mariage</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="./assets/css/style.css">
@@ -142,7 +156,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
     <header class="fixed-header">
         <div class="header-content">
             <div class="logo">
-                <img src="assets/images/logo.png" alt="Budget Mariage" class="logo-icon">
+                <img src="assets/images/wedding.jpg" alt="Budget Mariage" class="logo-icon">
                 <h1>Budget Mariage</h1>
             </div>
             

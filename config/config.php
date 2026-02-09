@@ -4,7 +4,8 @@ define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
 define('DB_PASS', '');
 define('DB_NAME', 'wedding'); // Changé de wedding_budget à wedding
-
+// Durée de session en secondes (30 minutes)
+define('SESSION_TIMEOUT', 1800);
 // Connexion à la base de données
 function getDBConnection() {
     try {

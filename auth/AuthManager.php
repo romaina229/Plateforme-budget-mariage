@@ -124,9 +124,11 @@ class AuthManager {
     public static function isLoggedIn() {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
+        }   
+        if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
+            return self::checkSessionTimeout();
         }
-        
-        return isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true;
+        return false;
     }
     
     // Obtenir l'utilisateur connecté
@@ -186,6 +188,26 @@ class AuthManager {
         $updateStmt->execute([$hashedPassword, $userId]);
         
         return ['success' => true, 'message' => 'Mot de passe modifié avec succès'];
+    }
+    public static function checkSessionTimeout() {
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+    
+    if (isset($_SESSION['LAST_ACTIVITY'])) {
+        if (time() - $_SESSION['LAST_ACTIVITY'] > SESSION_TIMEOUT) {
+            self::destroySession();
+            return false;
+        }
+    }
+    
+    $_SESSION['LAST_ACTIVITY'] = time();
+    return true;
+    }
+
+    private static function destroySession() {
+        session_unset();
+        session_destroy();
     }
 }
 ?>
