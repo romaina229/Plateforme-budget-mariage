@@ -191,3 +191,8 @@ Pour toute question ou problème, contactez l'administrateur du projet.
 ---
 
 **Développé avec ❤️ pour le Projet Jésus Pourvoir Ménage**
+
+## 📲 Application mobile
+
+Une application mobile Expo/React Native prête au déploiement est disponible dans le dossier `mobile-app/`.
+Voir `mobile-app/README.md` pour l’installation, la configuration API et le build Android/iOS.
