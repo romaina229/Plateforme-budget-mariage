@@ -1,19 +1,30 @@
 <?php
-/**
- * Script d'installation de la base de données
- * Exécutez ce fichier une seule fois pour créer la base de données et les tables
- */
+    declare(strict_types=1);
+    ini_set('default_charset', 'UTF-8');
+    header('Content-Type: text/html; charset=UTF-8');
 
-// Connexion sans base de données pour la création
-$host = 'localhost';
-$user = 'root';
-$pass = '';
-$dbname = 'wedding';
+    /**
+     * Script d'installation de la base de données
+     * Exécutez ce fichier une seule fois pour créer la base de données et les tables
+     */
 
-try {
-    // Connexion au serveur MySQL
-    $conn = new PDO("mysql:host=$host", $user, $pass);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    // Connexion sans base de données pour la création
+    $host = 'localhost';
+    $user = 'root';
+    $pass = '';
+    $dbname = 'wedding';
+
+    try {
+        // Connexion au serveur MySQL
+     $conn = new PDO(
+        "mysql:host=$host;charset=utf8mb4",
+        $user,
+        $pass,
+        [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8mb4"
+        ]
+    );
     
     // Création de la base de données
     $conn->exec("CREATE DATABASE IF NOT EXISTS $dbname CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
@@ -73,9 +84,23 @@ $sql_expenses = "
         INDEX idx_category (category_id),
         INDEX idx_paid (paid)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
-    
+
     $conn->exec($sql_expenses);
-    echo "✓ Table 'expenses' créée avec succès<br>";
+        echo "✓ Table 'expenses' créée avec succès<br>";
+
+    // Créer la table si elle n'existe pas
+    $sql_wedding_dates = "
+    CREATE TABLE IF NOT EXISTS wedding_dates (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        user_id INT NOT NULL UNIQUE,
+        wedding_date DATE NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
+
+    $conn->exec($sql_wedding_dates);
+    echo "✓ Table 'wedding_dates' créée avec succès<br>";
     
     // Insertion des catégories
     $categories = [

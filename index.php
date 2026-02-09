@@ -16,7 +16,8 @@ $currentUser = $isLoggedIn ? AuthManager::getCurrentUser() : null;
 </head>
 <body>
     <?php include 'includes/header.php'; ?>
-    <div class="app-container">
+    <div class="app-container">   
+        <div id="wedding-date-container"></div><br>
         <!-- Dashboard Tab -->
         <div id="dashboard-tab" class="tab-content active fade-in">
             <div class="stats-grid" id="stats-grid">

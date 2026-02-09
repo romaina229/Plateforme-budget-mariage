@@ -69,6 +69,16 @@ CREATE TABLE `expenses` (
   INDEX `idx_paid` (`paid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--Créer la table si elle n'existe pas
+CREATE TABLE IF NOT EXISTS wedding_dates (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        user_id INT NOT NULL UNIQUE,
+        wedding_date DATE NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- Insérer les dépenses (user_id = 1, category_id = 1-7)
 INSERT INTO `expenses` (`user_id`, `category_id`, `name`, `quantity`, `unit_price`, `frequency`, `paid`) VALUES
 -- Catégorie 1: Connaissance

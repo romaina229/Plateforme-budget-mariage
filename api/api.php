@@ -1,9 +1,20 @@
 <?php
-header('Content-Type: application/json');
+
+header('Content-Type: application/json; charset=UTF-8');
 session_start();
 
 require_once __DIR__ . '/../ExpenseManager.php';
 require_once __DIR__ . '/../auth/AuthManager.php';
+require_once __DIR__ . '/../config/config.php';
+
+// Initialiser la connexion à la base de données
+try {
+    $conn = getDBConnection(); // Fonction de votre config.php
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch(PDOException $e) {
+    echo json_encode(['success' => false, 'message' => 'Erreur de connexion à la base de données']);
+    exit;
+}
 
 $manager = new ExpenseManager();
 $action = $_GET['action'] ?? '';
@@ -120,57 +131,67 @@ try {
             break;
 // api.php - Ajouter ces endpoints
 // Dans la section des actions
-case 'save_wedding_date':
-    if (!AuthManager::isLoggedIn()) {
-        echo json_encode(['success' => false, 'message' => 'Non autorisé']);
-        exit;
-    }
-    
-    $data = json_decode(file_get_contents('php://input'), true);
-    $date = $data['date'] ?? '';
-    
-    // Validation de la date
-    if (empty($date) || !strtotime($date)) {
-        echo json_encode(['success' => false, 'message' => 'Date invalide']);
-        exit;
-    }
-    
-    // Sauvegarder dans la base de données
-    try {
-        $userId = $_SESSION['user_id'];
+    case 'get_wedding_date':
+        if (!AuthManager::isLoggedIn()) {
+            echo json_encode(['success' => false, 'message' => 'Non autorisé']);
+            exit;
+        }
         
-        // Créer la table si elle n'existe pas
-        $sql = "CREATE TABLE IF NOT EXISTS wedding_dates (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            user_id INT NOT NULL UNIQUE,
-            wedding_date DATE NOT NULL,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
+        try {
+            $userId = $_SESSION['user_id'];
+            $stmt = $conn->prepare("SELECT wedding_date FROM wedding_dates WHERE user_id = ?");
+            $stmt->execute([$userId]);
+            $result = $stmt->fetch();
+            
+            if ($result && $result['wedding_date']) {
+                echo json_encode(['success' => true, 'date' => $result['wedding_date']]);
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Aucune date définie']);
+            }
+            
+        } catch(PDOException $e) {
+            echo json_encode(['success' => false, 'message' => 'Erreur base de données: ' . $e->getMessage()]);
+        }
+        break;
         
-        $conn->exec($sql);
+    case 'save_wedding_date':
+        if (!AuthManager::isLoggedIn()) {
+            echo json_encode(['success' => false, 'message' => 'Non autorisé']);
+            exit;
+        }
         
-        // Insérer ou mettre à jour
-        $stmt = $conn->prepare("
-            INSERT INTO wedding_dates (user_id, wedding_date) 
-            VALUES (:user_id, :wedding_date)
-            ON DUPLICATE KEY UPDATE wedding_date = :wedding_date2
-        ");
+        $data = json_decode(file_get_contents('php://input'), true);
+        $date = $data['date'] ?? '';
         
-        $stmt->execute([
-            ':user_id' => $userId,
-            ':wedding_date' => $date,
-            ':wedding_date2' => $date
-        ]);
+        // Validation
+        if (empty($date) || !strtotime($date)) {
+            echo json_encode(['success' => false, 'message' => 'Date invalide']);
+            exit;
+        }
         
-        echo json_encode(['success' => true, 'message' => 'Date sauvegardée']);
-        
-    } catch (PDOException $e) {
-        echo json_encode(['success' => false, 'message' => 'Erreur base de données']);
-    }
-    break;
-// Endpoint pour récupérer la date de mariage fin 
+        try {
+            $userId = $_SESSION['user_id'];
+            
+            // Insérer ou mettre à jour
+            $stmt = $conn->prepare("
+                INSERT INTO wedding_dates (user_id, wedding_date) 
+                VALUES (:user_id, :wedding_date)
+                ON DUPLICATE KEY UPDATE wedding_date = :wedding_date2
+            ");
+            
+            $stmt->execute([
+                ':user_id' => $userId,
+                ':wedding_date' => $date,
+                ':wedding_date2' => $date
+            ]);
+            
+            echo json_encode(['success' => true, 'message' => 'Date sauvegardée']);
+            
+        } catch(PDOException $e) {
+            echo json_encode(['success' => false, 'message' => 'Erreur base de données: ' . $e->getMessage()]);
+        }
+        break;
+// Endpoint pour récupérer la date de mariage fin  
 case 'get_wedding_date':
     if (!AuthManager::isLoggedIn()) {
         echo json_encode(['success' => false]);
