@@ -219,17 +219,16 @@ $currentUser = $isLoggedIn ? AuthManager::getCurrentUser() : null;
                     </p>
                     <ul class="step-checklist">
                         <li><strong>Informez le président de la JAD</strong> (Jeunesse de l'Assemblée de Dieu)</li>
-                        <li><strong>Prévenez les responsables de département</strong> dans lequel vous militez :
-                            <ul style="margin-left: 20px; margin-top: 10px;">
-                                <li>Responsable de classe d'école de dimanche (EDL), etc.</li>
-                                <li>Président du département (groupe musical, chorale etc.)</li>
-                                <li>Prévénir les pasteurs avant de se présenter au comité d'église</li>
+                        <li><strong>Prévenir les responsables des départements</strong> dans lesquels vous êtes engagé(e):
+                            <ul class="step-checklist">
+                                <li>Départements et groupes organsés (EDL, groupe musical, chorale etc.)</li>
+                                <li><strong>Prévénir les pasteurs</strong> avant de se présenter au comité d'église</li>
                             </ul>
                         </li>
                         <li><strong>Soumettez votre demande écrite</strong> au comité d'église</li>
                         <li><strong>Participez aux séances de préparation</strong> au mariage organisées par l'église</li>
                         <li><strong>Obtenez les certificats nécessaires</strong> :
-                            <ul style="margin-left: 20px; margin-top: 10px;">
+                            <ul class="step-checklist">
                                 <li>Certificat de baptême si néccéssaire</li>
                                 <li>Attestation de célibat</li>
                                 <li>Attestation de bonne conduite</li>
