@@ -82,3 +82,13 @@ npx eas build --platform ios
 ### Session non conservée
 Le backend actuel utilise des sessions PHP. L'app envoie les requêtes avec `credentials: 'include'`.
 Assurez-vous que vos cookies et domaine sont compatibles avec le mode d'accès mobile.
+
+
+### Erreur: Cannot find module 'babel-preset-expo'
+Installez le preset Babel manquant puis redémarrez Expo en vidant le cache :
+
+```bash
+cd mobile-app
+npm install -D babel-preset-expo
+npm run start -- --clear
+```
