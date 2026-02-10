@@ -21,17 +21,27 @@ npm run start
 ```
 
 ### Expo Go SDK 54 (important)
-Si votre téléphone a Expo Go **SDK 54** (cas actuel), il faut **mettre à jour le projet mobile** avant de lancer l'app :
+Si votre téléphone a Expo Go **SDK 54** (cas actuel), `expo upgrade` peut afficher :
+`expo upgrade is not supported in the local CLI`.
+
+Utilisez cette mise à jour manuelle (compatible CLI locale) :
 
 ```bash
 cd mobile-app
-npx expo upgrade 54
+npm install expo@^54.0.0
 npx expo install --fix
+npx expo-doctor
 npm install
-npm run start
+npm run start -- --clear
 ```
 
-Ensuite, ouvrez à nouveau Expo Go et scannez le QR code.
+Si `expo-doctor` signale encore des dépendances, exécutez à nouveau :
+
+```bash
+npx expo install --fix
+```
+
+Ensuite, ouvrez Expo Go et scannez le QR code.
 
 ## 3) Ouvrir l'app
 - soit via **Expo Go** (Android/iOS),
