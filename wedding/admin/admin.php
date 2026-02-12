@@ -560,6 +560,89 @@ $weddingDate = $expenseManager->getWeddingDate($userId);
         });
     }
 
+function editCategory(categoryId) {
+    // Récupérer les informations de la catégorie depuis le tableau
+    const row = event.target.closest('tr');
+    const name = row.cells[1].textContent.trim();
+    const color = row.cells[2].querySelector('div')?.style.background || '#8b4f8d';
+    const icon = row.cells[3].querySelector('i')?.className || 'fas fa-folder';
+    const order = row.cells[4].textContent.trim();
+    
+    // Demander les nouvelles valeurs
+    const newName = prompt('Nom de la catégorie :', name);
+    if (!newName) return;
+    
+    const newColor = prompt('Couleur (code hexadécimal) :', color);
+    if (!newColor) return;
+    
+    const newIcon = prompt('Icône Font Awesome :', icon);
+    if (!newIcon) return;
+    
+    const newOrder = prompt('Ordre d\'affichage :', order);
+    if (!newOrder) return;
+    
+    // Envoyer la modification
+    fetch(API_ADMIN + '?action=update_category', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            id: categoryId,
+            name: newName,
+            color: newColor,
+            icon: newIcon,
+            display_order: parseInt(newOrder)
+        })
+    })
+    .then(response => response.json())
+    .then(result => {
+        alert(result.message);
+        if (result.success) {
+            window.location.reload();
+        }
+    })
+    .catch(error => {
+        alert('Erreur lors de la modification de la catégorie');
+    });
+    }
+    function addCategory() {
+        const name = prompt('Nom de la nouvelle catégorie :');
+        if (!name) return;
+        
+        const color = prompt('Couleur (code hexadécimal) :', '#8b4f8d');
+        if (!color) return;
+        
+        const icon = prompt('Icône Font Awesome :', 'fas fa-folder');
+        if (!icon) return;
+        
+        const order = prompt('Ordre d\'affichage :', '0');
+        if (!order) return;
+        
+        fetch(API_ADMIN + '?action=add_category', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name: name,
+                color: color,
+                icon: icon,
+                display_order: parseInt(order)
+            })
+        })
+        .then(response => response.json())
+        .then(result => {
+            alert(result.message);
+            if (result.success) {
+                window.location.reload();
+            }
+        })
+        .catch(error => {
+            alert('Erreur lors de l\'ajout de la catégorie');
+        });
+    }
+
     function exportUsers() {
         fetch(API_ADMIN + '?action=export_users')
         .then(response => response.json())
